@@ -1,0 +1,24 @@
+python -u run.py \
+  --task_name classification \
+  --is_training 1 \
+  --root_path "C:\Users\28199\Desktop\dataset\PTBXL" \            # 修改数据根目录
+  --model_id PTBXL-Sample \
+  --model GTMD \
+  --data PTBXL-Sample \
+  --e_layers 4 \
+  --batch_size 256 \
+  --d_model 128 \
+  --d_ff 256 \
+  --n_heads 4 \
+  --resolution_list 10,20,40,80 \
+  --nodedim 12 \
+  --augmentations drop0.2,jitter0.1 \
+  --des 'ECG-Exp' \
+  --itr 3 \
+  --learning_rate 0.001 \
+  --train_epochs 50 \
+  --patience 10 \
+  --dropout 0.3 \
+  --num_workers 0 \
+  --use_amp \
+  --gpu 0
