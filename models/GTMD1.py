@@ -11,7 +11,7 @@ class WaveDetector(nn.Module):
 
     def __init__(self, d_model, num_waves=3, hidden_dim=64):
         super(WaveDetector, self).__init__()
-        self.num_waves = num_waves  # P波、QRS波、T波
+        self.num_waves = num_waves  
         self.conv1 = nn.Conv1d(d_model, hidden_dim, kernel_size=5, padding=2)
         self.conv2 = nn.Conv1d(hidden_dim, hidden_dim, kernel_size=3, padding=1)
         self.conv3 = nn.Conv1d(hidden_dim, num_waves, kernel_size=3, padding=1)
@@ -24,7 +24,7 @@ class WaveDetector(nn.Module):
         x = F.relu(self.conv2(x))
         wave_probs = self.conv3(x)  # [batch_size, num_waves, seq_len]
         wave_probs = wave_probs.transpose(1, 2)  # [batch_size, seq_len, num_waves]
-        wave_mask = self.softmax(wave_probs)  # 每个时间点属于各个波段的概率
+        wave_mask = self.softmax(wave_probs) 
         return wave_mask
 
 
@@ -73,7 +73,7 @@ class DynamicWaveAttention(nn.Module):
     def forward(self, x, wave_mask, subgraph_adj=None):
         # x shape: [batch_size, seq_len, d_model]
         # wave_mask shape: [batch_size, seq_len, num_waves]
-        # subgraph_adj: 子图邻接矩阵 [batch_size, seq_len, seq_len]
+        # subgraph_adj:  [batch_size, seq_len, seq_len]
 
         residual = x
         batch_size, seq_len, _ = x.shape
@@ -128,7 +128,7 @@ class ECGSubGraphConv(nn.Module):
     def forward(self, x, wave_mask, adj_matrices=None):
         # x shape: [batch_size, seq_len, in_channels]
         # wave_mask shape: [batch_size, seq_len, num_waves]
-        # adj_matrices: 各波段的邻接矩阵列表 [num_waves, seq_len, seq_len]
+        # adj_matrices: [num_waves, seq_len, seq_len]
 
         batch_size, seq_len, _ = x.shape
         wave_outputs = []
@@ -166,7 +166,7 @@ class ECGSubGraphLayer(nn.Module):
         super(ECGSubGraphLayer, self).__init__()
         self.d_model = configs.d_model
         self.n_heads = configs.n_heads
-        self.num_waves = 3  # P波、QRS波、T波
+        self.num_waves = 3  
         self.res_len = res_len
 
         self.wave_detector = WaveDetector(self.d_model, self.num_waves)
@@ -284,7 +284,7 @@ class MRGNN(nn.Module):
 
 
 class PositionalEncoding(nn.Module):
-    """位置编码"""
+    
 
     def __init__(self, d_model, max_len=5000):
         super(PositionalEncoding, self).__init__()
@@ -355,7 +355,7 @@ class Model(nn.Module):
 
         self.pos_encoding = PositionalEncoding(configs.d_model)
 
-        # step 3: transformer (保持原有代码)
+        # step 3: transformer 
         self.encoder = Encoder(
             [
                 EncoderLayer(
@@ -407,5 +407,6 @@ class Model(nn.Module):
         # step 5: projection
         output = output.reshape(B, -1)
         output = self.projection(output)
+
 
         return output
