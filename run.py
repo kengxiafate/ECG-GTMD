@@ -5,8 +5,6 @@ from exp.exp_classification import Exp_Classification
 import random
 import numpy as np
 
-# 方案A：设置环境变量（在代码开头添加）
-
 os.environ["PYTHONWARNINGS"] = "ignore:semaphore_tracker:UserWarning"
 
 
