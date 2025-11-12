@@ -8,7 +8,7 @@ class WaveDetector(nn.Module):
 
     def __init__(self, input_dim, hidden_dim=64, num_waves=3):
         super(WaveDetector, self).__init__()
-        self.num_waves = num_waves  # P波、QRS波、T波
+        self.num_waves = num_waves  
         self.conv1 = nn.Conv1d(input_dim, hidden_dim, kernel_size=5, padding=2)
         self.conv2 = nn.Conv1d(hidden_dim, hidden_dim, kernel_size=3, padding=1)
         self.conv3 = nn.Conv1d(hidden_dim, num_waves, kernel_size=3, padding=1)
@@ -21,7 +21,7 @@ class WaveDetector(nn.Module):
         x = F.relu(self.conv2(x))
         wave_probs = self.conv3(x)  # [batch_size, num_waves, seq_len]
         wave_probs = wave_probs.transpose(1, 2)  # [batch_size, seq_len, num_waves]
-        wave_mask = self.softmax(wave_probs)  # 每个时间点属于各个波段的概率
+        wave_mask = self.softmax(wave_probs)  
         return wave_mask
 
 
@@ -68,7 +68,7 @@ class DynamicWaveAttention(nn.Module):
     def forward(self, x, wave_mask, subgraph_adj=None):
         # x shape: [batch_size, seq_len, d_model]
         # wave_mask shape: [batch_size, seq_len, num_waves]
-        # subgraph_adj: 子图邻接矩阵 [batch_size, seq_len, seq_len]
+        # subgraph_adj:  [batch_size, seq_len, seq_len]
 
         residual = x
         batch_size, seq_len, _ = x.shape
@@ -113,7 +113,7 @@ class ECGSubGraphConv(nn.Module):
             nn.Linear(in_channels, out_channels) for _ in range(num_waves)
         ])
 
-        # 波段重要性权重
+        
         self.wave_weights = nn.Parameter(torch.ones(num_waves) / num_waves)
 
         self.activation = nn.ReLU()
@@ -122,7 +122,7 @@ class ECGSubGraphConv(nn.Module):
     def forward(self, x, wave_mask, adj_matrices=None):
         # x shape: [batch_size, seq_len, in_channels]
         # wave_mask shape: [batch_size, seq_len, num_waves]
-        # adj_matrices: 各波段的邻接矩阵列表 [num_waves, seq_len, seq_len]
+        # adj_matrices: [num_waves, seq_len, seq_len]
 
         batch_size, seq_len, _ = x.shape
         wave_outputs = []
@@ -282,10 +282,10 @@ class ECGClassificationModel(nn.Module):
         # x shape: [batch_size, seq_len, input_dim]
         x = self.input_proj(x)
 
-        # 通过ECG Graph Transformer
+      
         x, wave_mask = self.ecg_transformer(x)
 
-        # 分类
+        
         x = x.transpose(1, 2)  # [batch_size, d_model, seq_len]
         output = self.classifier(x)
 
@@ -304,13 +304,12 @@ if __name__ == "__main__":
 
     model = ECGClassificationModel(input_dim, d_model, n_heads, num_layers, num_classes)
 
-    # 模拟ECG输入
+    
     x = torch.randn(batch_size, seq_len, input_dim)
-
-    # 前向传播
     output, wave_mask = model(x)
 
     print(f"输入形状: {x.shape}")
     print(f"输出形状: {output.shape}")
     print(f"波段掩码形状: {wave_mask.shape}")
+
     print(f"预测概率: {F.softmax(output, dim=-1)}")'''
