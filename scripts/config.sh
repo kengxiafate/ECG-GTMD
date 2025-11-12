@@ -1,7 +1,7 @@
 python -u run.py \
   --task_name classification \
   --is_training 1 \
-  --root_path "C:\Users\28199\Desktop\dataset\PTBXL" \            # 修改数据根目录
+  --root_path "C:\Users\28199\Desktop\dataset\PTBXL" \
   --model_id PTBXL-Sample \
   --model GTMD \
   --data PTBXL-Sample \
