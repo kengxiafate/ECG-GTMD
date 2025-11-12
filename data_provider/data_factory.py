@@ -1,8 +1,4 @@
 from data_provider.data_loader import (
-    APAVALoader,
-    ADFDLoader,
-    ADFDDependentLoader,
-    TDBRAINLoader,
     PTBLoader,
     PTBXLLoader,
 )
@@ -10,11 +6,6 @@ from data_provider.uea import collate_fn
 from torch.utils.data import DataLoader
 
 data_dict = {
-    # following used in our paper
-    "APAVA": APAVALoader,  # dataset APAVA
-    "TDBRAIN": TDBRAINLoader,  # dataset TDBRAIN
-    "ADFD": ADFDLoader,  # dataset ADFD
-    "ADFD-Sample": ADFDDependentLoader,  # dataset ADFD with sample-based setup
     "PTB": PTBLoader,  # dataset PTB
     "PTBXL-Sample": PTBXLLoader,  # dataset PTB-XL
 }
