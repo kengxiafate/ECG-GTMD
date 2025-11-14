@@ -8,8 +8,6 @@ This repository provides the source code of paper 'ECG-GTMD:A CVD Diagnosis Mode
 
 - **./layers**:The reference implementations of each component of the GTMD model.
 
-- **./models**:Some reference implementations of the mentioned models
-
 - **run.py**:Add parameters and start the experiment.
 # Datasets 
 All datasets have been made public on physionet.
