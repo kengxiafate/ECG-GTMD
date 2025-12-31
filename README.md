@@ -1,12 +1,12 @@
 
 # ECG-GTMD
-This repository provides the source code of paper 'ECG-GTMD:A CVD Diagnosis Model based on Graph-Transformer with Multi-Domain Fusion of Spatiotemporal and Band Features'
+This repository provides the source code ECG-GTMD
 # Introduction
 - **./data_preprocessing**：Carry out the preprocessing work of the dataset.
 
 - **./data_provider**:Create and load experimental data.
 
-- **./layers**:The reference implementations of each component of the GTMD model.
+- **./layers**:The reference implementations of each component of model.
 
 - **run.py**:Add parameters and start the experiment.
 # Datasets 
@@ -30,7 +30,4 @@ pip install -r requirements.txt
 ## Begin Training
 Before starting the training, please make sure to download the dataset and change the path of the processed dataset to the appropriate location.
 You can start the experiment by using the following commands.
-```
-bash ./scripts/config.sh
-```
-Or use `python -u run.py --\dataset path --required parameters` in the terminal to start training.
+use `python -u run.py --\dataset path --required parameters` in the terminal to start training.
